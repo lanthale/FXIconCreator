@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+                <goal>javafx:run</goal>
+                
+            </goals>
+        </action>
+        <action>
+            <actionName>debug</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+                <goal>javafx:run@ide-debug</goal>
+            </goals>
+            <properties>
+                
+                
+                <jpda.listen>true</jpda.listen>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-create-native-image</actionName>
+            <displayName>create-native-image</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                
+                
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>package</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>CUSTOM-graalvm</actionName>
+            <displayName>graalvm</displayName>
+            <goals>
+                <goal>client:build</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-graalvm package</actionName>
+            <displayName>graalvm package</displayName>
+            <goals>
+                <goal>client:package</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>package</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>clearn</goal>
+                <goal>javafx:run@ide-profile</goal>
+            </goals>
+        </action>
+        
+    </actions>
