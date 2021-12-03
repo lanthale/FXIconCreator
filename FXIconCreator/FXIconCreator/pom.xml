@@ -59,7 +59,12 @@
             <groupId>com.github.gino0631</groupId>
             <artifactId>icns-core</artifactId>
             <version>1.1</version>
-        </dependency>        
+        </dependency>  
+        <dependency>
+            <groupId>com.github.jai-imageio</groupId>
+            <artifactId>jai-imageio-core</artifactId>
+            <version>1.4.0</version>
+        </dependency>    
 
         <!-- This downloads the platform specific JavaFX libraries used by the project. -->
         <!-- For the final installable, the JavaFX dependencies are provided via modules, but by including these here
