@@ -52,7 +52,6 @@
                   </Label>
                </children>
             </VBox>
-            <ImageView fx:id="imageView" fitHeight="512.0" fitWidth="512.0" onDragOver="#dropOver" pickOnBounds="true" preserveRatio="true" />
             <AnchorPane fx:id="progressPane" visible="false">
                <children>
                   <HBox alignment="CENTER" layoutX="117.0" layoutY="206.0" opacity="0.77" spacing="10.0" style="-fx-background-radius: 20; -fx-background-color: grey;">
@@ -70,6 +69,12 @@
                   </HBox>
                </children>
             </AnchorPane>
+            <VBox alignment="BOTTOM_CENTER">
+               <children>
+                  <Button id="cbutton" fx:id="selectFilesButton" mnemonicParsing="false" onAction="#selectionButton" text="Selection PNG file..." />
+               </children>
+            </VBox>
+            <ImageView fx:id="imageView" fitHeight="512.0" fitWidth="512.0" onDragOver="#dropOver" pickOnBounds="true" preserveRatio="true" />
          </children>
       </StackPane>
       <Button fx:id="generateButton" layoutX="470.0" layoutY="529.0" mnemonicParsing="false" onAction="#generateAction" prefHeight="41.0" prefWidth="216.0" text="Generate Icons" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="14.0">
@@ -80,13 +85,14 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <HBox layoutX="45.0" layoutY="452.0" spacing="20.0" AnchorPane.bottomAnchor="30.5" AnchorPane.leftAnchor="45.0">
+      <HBox layoutX="9.0" layoutY="452.0" prefHeight="18.0" prefWidth="446.0" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="9.0">
          <children>
             <CheckBox fx:id="linuxCheckBox" mnemonicParsing="false" selected="true" text="Linux" />
             <CheckBox fx:id="windowsCheckBox" mnemonicParsing="false" selected="true" text="Windows" />
             <CheckBox fx:id="macosCheckBox" mnemonicParsing="false" selected="true" text="Mac OS" />
+            <CheckBox fx:id="androidCheckBox" mnemonicParsing="false" text="Android" />
+            <CheckBox fx:id="iosCheckBox" mnemonicParsing="false" text="IOS" />
          </children>
       </HBox>
-      <Button id="cbutton" fx:id="selectFilesButton" layoutX="295.0" layoutY="537.0" mnemonicParsing="false" onAction="#selectionButton" text="Selection PNG file..." AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="295.0" />
    </children>
 </AnchorPane>

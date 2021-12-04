@@ -84,6 +84,10 @@ public class FXIconController implements Initializable {
     @FXML
     private Button selectFilesButton;
     private File selectedImageFile;
+    @FXML
+    private CheckBox androidCheckBox;
+    @FXML
+    private CheckBox iosCheckBox;
 
     public FXIconController() {
         dirChooser = new DirectoryChooser();
@@ -150,6 +154,36 @@ public class FXIconController implements Initializable {
         try {
             input = new FileInputStream(pngString512);
             Files.copy(input, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXIconController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXIconController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                input.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FXIconController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void createIOS(File outFile) {
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream(pngString512);            
+            Image img512 = new Image(new FileInputStream(pngString512));
+            Image img180 = scaleImage(img512, 512, 512, 180, 180);
+            Image img120 = scaleImage(img512, 512, 512, 120, 120);
+            Image img167 = scaleImage(img512, 512, 512, 167, 167);
+            Image img152 = scaleImage(img512, 512, 512, 152, 152);
+            Image img1024 = scaleImage(img512, 512, 512, 1024, 1024);
+
+            ImageIO.write(SwingFXUtils.fromFXImage(img512, null), "png", new File(outFile.getParent() + File.separator + "icon512.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(img180, null), "png", new File(outFile.getParent() + File.separator + "icon180.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(img120, null), "png", new File(outFile.getParent() + File.separator + "icon120.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(img167, null), "png", new File(outFile.getParent() + File.separator + "icon167.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(img152, null), "png", new File(outFile.getParent() + File.separator + "icon152.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(img1024, null), "png", new File(outFile.getParent() + File.separator + "icon1024.png"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FXIconController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -248,6 +282,23 @@ public class FXIconController implements Initializable {
                     createPNG(pngFile);
                     updateProgress(80, 100);
                 }
+                if (androidCheckBox.isSelected()) {
+                    updateProgress(30, 100);
+                    File pngDir = new File(result.getAbsolutePath() + File.separator + "android");
+                    pngDir.mkdirs();
+                    File pngFile = new File(result.getAbsolutePath() + File.separator + "android" + File.separator + "icon.png");
+                    createPNG(pngFile);
+                    updateProgress(80, 100);
+                }
+                if (iosCheckBox.isSelected()) {
+                    updateProgress(30, 100);
+                    File pngDir = new File(result.getAbsolutePath() + File.separator + "ios");
+                    pngDir.mkdirs();
+                    File pngFile = new File(result.getAbsolutePath() + File.separator + "ios" + File.separator + "icon.png");
+                    createIOS(pngFile);
+                    updateProgress(80, 100);
+                }
+
                 updateProgress(100, 100);
                 return null;
             }
@@ -295,7 +346,7 @@ public class FXIconController implements Initializable {
             if (selectedImageFile != null) {
                 Image img = new Image(new FileInputStream(selectedImageFile));
                 if (img.getWidth() != 512) {
-                    Alert alert = new Alert(AlertType.ERROR, "Provided image has the wrong with/height (w:" + img.getWidth() + ", h:" + img.getHeight() + ")!\n\nMust be 512 x 512px", ButtonType.OK);                    
+                    Alert alert = new Alert(AlertType.ERROR, "Provided image has the wrong with/height (w:" + img.getWidth() + ", h:" + img.getHeight() + ")!\n\nMust be 512 x 512px", ButtonType.OK);
                     alert.showAndWait();
                 } else {
                     imageView.setImage(img);
