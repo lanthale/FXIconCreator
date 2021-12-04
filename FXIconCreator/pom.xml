@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>FXIconCreator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     
     <description>FXIconCreator is a simple editor like notepad but support for very large files</description>
 
@@ -15,7 +15,7 @@
         <app.name>FXIconCreator</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
         <app.version>${version}</app.version>        
-        <jvm.modules>javafx.media,javafx.controls,javafx.fxml,javafx.graphics,java.logging</jvm.modules>        
+        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,jdk.incubator.foreign,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>        
