@@ -73,7 +73,7 @@ public class App extends Application {
             root = (Parent) fxmlLoader.load();
         }
         if (scene == null) {
-            scene = new Scene(root, 640, 480);
+            scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         }
         scene.getStylesheets().add(getClass().getResource("/fxml/style.css").toExternalForm());
 
@@ -82,7 +82,7 @@ public class App extends Application {
         }        
 
         stage.setScene(scene);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/icon_256x256.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/icon_source512.png")));
         stage.show();        
     }
 

@@ -1,0 +1,19 @@
+.root > *
+{
+    /* add your predefined values here */
+}
+
+#cbutton {
+    -fx-background-color: transparent, rgba(0,0,0,.1), rgba(0,0,0,.1), transparent;
+}
+
+#cbutton:hover{
+    -fx-background-color: transparent, rgba(0,0,0,.2), rgba(0,0,0,.2), transparent;
+}
+
+#cbutton:armed {
+    -fx-background-color: transparent, rgba(0,0,0,.1), rgba(0,0,0,.1), rgba(0,0,0,.2);
+}
+
+
+

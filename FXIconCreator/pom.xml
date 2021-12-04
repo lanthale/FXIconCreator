@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>FXIconCreator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     
     <description>FXIconCreator is a simple editor like notepad but support for very large files</description>
 
@@ -164,6 +164,7 @@
                             <options>                                   
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
                     </execution>
@@ -177,6 +178,7 @@
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>                                    
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
                     </execution>
@@ -189,6 +191,7 @@
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>                                    
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
                     </execution>
@@ -200,6 +203,7 @@
                             <options>
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                                 <option>${profiler.jvmargs.arg1}</option>
                                 <option>${profiler.jvmargs.arg2}</option>
                                 <option>${profiler.jvmargs.arg3}</option>

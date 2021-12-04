@@ -44,7 +44,7 @@
          <children>
             <VBox fx:id="vbox" alignment="CENTER" prefHeight="423.0" prefWidth="700.0">
                <children>
-                  <FontIcon iconColor="#b5b5b5" iconLiteral="ti-image" iconSize="300" />
+                  <FontIcon iconColor="#b5b5b5" iconLiteral="ti-image" iconSize="400" />
                   <Label text="Drop PNG file with 512 x 512 px here" textFill="#6f6e6e">
                      <font>
                         <Font size="24.0" />
@@ -53,14 +53,9 @@
                </children>
             </VBox>
             <ImageView fx:id="imageView" fitHeight="512.0" fitWidth="512.0" onDragOver="#dropOver" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="selectFilesButton" mnemonicParsing="false" onAction="#selectionButton" text="Selection PNG fie...">
-               <StackPane.margin>
-                  <Insets top="165.0" />
-               </StackPane.margin>
-            </Button>
             <AnchorPane fx:id="progressPane" visible="false">
                <children>
-                  <HBox alignment="CENTER" layoutX="117.0" layoutY="206.0" opacity="0.64" spacing="10.0" style="-fx-background-radius: 20; -fx-background-color: grey;">
+                  <HBox alignment="CENTER" layoutX="117.0" layoutY="206.0" opacity="0.77" spacing="10.0" style="-fx-background-radius: 20; -fx-background-color: grey;">
                      <children>
                         <ProgressIndicator fx:id="progressBar" minHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" progress="0.0" />
                         <Label text="Generating Icons....">
@@ -77,7 +72,7 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="generateButton" layoutX="435.0" layoutY="440.0" mnemonicParsing="false" onAction="#generateAction" prefHeight="41.0" prefWidth="216.0" text="Generate Icons" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="49.0">
+      <Button fx:id="generateButton" layoutX="470.0" layoutY="529.0" mnemonicParsing="false" onAction="#generateAction" prefHeight="41.0" prefWidth="216.0" text="Generate Icons" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="14.0">
          <graphic>
             <FontIcon iconColor="#7c6f0c" iconLiteral="ti-wand" iconSize="20" />
          </graphic>
@@ -92,5 +87,6 @@
             <CheckBox fx:id="macosCheckBox" mnemonicParsing="false" selected="true" text="Mac OS" />
          </children>
       </HBox>
+      <Button id="cbutton" fx:id="selectFilesButton" layoutX="295.0" layoutY="537.0" mnemonicParsing="false" onAction="#selectionButton" text="Selection PNG file..." AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="295.0" />
    </children>
 </AnchorPane>
