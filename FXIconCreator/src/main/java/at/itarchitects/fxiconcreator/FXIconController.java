@@ -259,46 +259,45 @@ public class FXIconController implements Initializable {
                 createImageList();
                 updateProgress(20, 100);
                 if (windowsCheckBox.isSelected()) {
-                    updateProgress(30, 100);
+                    updateProgress(10, 100);
                     File icoDir = new File(result.getAbsolutePath() + File.separator + "win");
                     icoDir.mkdirs();
                     File icoFile = new File(result.getAbsolutePath() + File.separator + "win" + File.separator + "icon.ico");
                     createICO(icoFile);
-                    updateProgress(80, 100);
+                    updateProgress(20, 100);
                 }
                 if (macosCheckBox.isSelected()) {
-                    updateProgress(30, 100);
+                    updateProgress(20, 100);
                     File icnsDir = new File(result.getAbsolutePath() + File.separator + "osx");
                     icnsDir.mkdirs();
                     File icnsFile = new File(result.getAbsolutePath() + File.separator + "osx" + File.separator + "icon.icns");
                     createICNS(icnsFile);
-                    updateProgress(80, 100);
+                    updateProgress(40, 100);
                 }
                 if (linuxCheckBox.isSelected()) {
-                    updateProgress(30, 100);
+                    updateProgress(40, 100);
                     File pngDir = new File(result.getAbsolutePath() + File.separator + "linux");
                     pngDir.mkdirs();
                     File pngFile = new File(result.getAbsolutePath() + File.separator + "linux" + File.separator + "icon.png");
                     createPNG(pngFile);
-                    updateProgress(80, 100);
+                    updateProgress(60, 100);
                 }
                 if (androidCheckBox.isSelected()) {
-                    updateProgress(30, 100);
+                    updateProgress(60, 100);
                     File pngDir = new File(result.getAbsolutePath() + File.separator + "android");
                     pngDir.mkdirs();
                     File pngFile = new File(result.getAbsolutePath() + File.separator + "android" + File.separator + "icon.png");
                     createPNG(pngFile);
-                    updateProgress(80, 100);
+                    updateProgress(70, 100);
                 }
                 if (iosCheckBox.isSelected()) {
-                    updateProgress(30, 100);
+                    updateProgress(70, 100);
                     File pngDir = new File(result.getAbsolutePath() + File.separator + "ios");
                     pngDir.mkdirs();
                     File pngFile = new File(result.getAbsolutePath() + File.separator + "ios" + File.separator + "icon.png");
                     createIOS(pngFile);
                     updateProgress(80, 100);
                 }
-
                 updateProgress(100, 100);
                 return null;
             }
