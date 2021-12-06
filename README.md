@@ -14,8 +14,8 @@ All the credit goes to the following opensource projects:
 - OSX: Goto in the download folder in Finder and right click on the installer file and click "Open". On OSX 11.x open the app and afterwards goto system settings - general tab in the Security & Privacy pane to instruct macOS to ignore its lack of notarization - click on "open anyway"
 - Linux:
 Download the deb package
-Run sudo dpkg -i photoslide_1.0.0-1_amd64.deb
-Click on the icon or run /opt/photoslide/bin/PhotoSlide
+Run sudo dpkg -i fxiconcreator_1.0.0-1_amd64.deb
+Click on the icon or run /opt/fxiconcreator/bin/FXIconCreator
 
 #Build the app
 You can build the app via cmd "mvn clean install" inside of the directory where the pom.xml file exists
