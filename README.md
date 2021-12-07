@@ -6,7 +6,7 @@ Reason for creating such an app was that I had to create app icons out of png fi
 All the credit goes to the following opensource projects:
 - Javafx https://openjfx.io/
 - iKonli https://github.com/kordamp/ikonli
-- ICNS imcdonagh https://github.com/gino0631/icns
+- ICNS #gino0631 https://github.com/gino0631/icns
 - ICO #imcdonagh https://github.com/imcdonagh/image4j
 
 # Usage notes
