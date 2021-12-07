@@ -29,11 +29,13 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +46,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -88,6 +91,12 @@ public class FXIconController implements Initializable {
     private CheckBox androidCheckBox;
     @FXML
     private CheckBox iosCheckBox;
+    @FXML
+    private Button selectIconFontButton;
+    @FXML
+    private FontIcon placeHolderIcon;
+    @FXML
+    private Label instructionsLabel;
 
     public FXIconController() {
         dirChooser = new DirectoryChooser();
@@ -127,7 +136,7 @@ public class FXIconController implements Initializable {
 
     public void createICNS(File outFile) {
         try {
-            try ( IcnsBuilder builder = IcnsBuilder.getInstance()) {
+            try (IcnsBuilder builder = IcnsBuilder.getInstance()) {
                 Image img512 = new Image(new FileInputStream(pngString512));
 
                 builder.add(IcnsType.ICNS_16x16_JPEG_PNG_IMAGE, getImageAsStream(img512, 16, 16));
@@ -137,7 +146,7 @@ public class FXIconController implements Initializable {
                 builder.add(IcnsType.ICNS_256x256_JPEG_PNG_IMAGE, getImageAsStream(img512, 256, 256));
                 builder.add(IcnsType.ICNS_512x512_JPEG_PNG_IMAGE, new FileInputStream(pngString512));
 
-                try ( IcnsIcons builtIcons = builder.build()) {
+                try (IcnsIcons builtIcons = builder.build()) {
                     FileOutputStream os = new FileOutputStream(outFile);
                     builtIcons.writeTo(os);
                 }
@@ -170,7 +179,7 @@ public class FXIconController implements Initializable {
     public void createIOS(File outFile) {
         FileInputStream input = null;
         try {
-            input = new FileInputStream(pngString512);            
+            input = new FileInputStream(pngString512);
             Image img512 = new Image(new FileInputStream(pngString512));
             Image img180 = scaleImage(img512, 512, 512, 180, 180);
             Image img120 = scaleImage(img512, 512, 512, 120, 120);
@@ -250,8 +259,7 @@ public class FXIconController implements Initializable {
     @FXML
     private void generateAction(ActionEvent event) {
         dirChooser.setTitle("Select output directory");
-        final File result = dirChooser.showDialog(generateButton.getParent().getScene().getWindow());
-        progressPane.setVisible(true);
+        final File result = dirChooser.showDialog(generateButton.getParent().getScene().getWindow());        
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -302,6 +310,10 @@ public class FXIconController implements Initializable {
                 return null;
             }
         };
+        task.setOnScheduled((t) -> {
+            progressPane.toFront();
+            progressPane.setVisible(true);
+        });
         task.setOnSucceeded((t) -> {
             progressPane.setVisible(false);
         });
@@ -327,6 +339,8 @@ public class FXIconController implements Initializable {
                     } else {
                         imageView.setImage(img);
                         generateButton.setDisable(false);
+                        placeHolderIcon.setVisible(false);
+                        instructionsLabel.setVisible(false);
                     }
                 }
             } catch (FileNotFoundException ex) {
@@ -350,11 +364,30 @@ public class FXIconController implements Initializable {
                 } else {
                     imageView.setImage(img);
                     generateButton.setDisable(false);
+                    placeHolderIcon.setVisible(false);
+                    instructionsLabel.setVisible(false);
                 }
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FXIconController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void selectIconFontButtonAction(ActionEvent event) {
+        
+        //create popover for custom selection of icon font
+        
+        placeHolderIcon.setIconLiteral("ti-trash");
+        placeHolderIcon.setIconSize(512);
+        WritableImage fontImage = new WritableImage(512, 512);
+        SnapshotParameters sp=new SnapshotParameters();
+        sp.setFill(Paint.valueOf("transparent"));
+        placeHolderIcon.snapshot(sp, fontImage);
+        imageView.setImage(fontImage);
+        generateButton.setDisable(false);
+        placeHolderIcon.setVisible(false);
+        instructionsLabel.setVisible(false);
     }
 
 }
