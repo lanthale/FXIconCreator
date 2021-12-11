@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -20,12 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.ResourceBundle;
+import java.util.ServiceLoader;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -40,6 +46,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -62,7 +69,11 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
 import net.sf.image4j.codec.ico.ICOEncoder;
 import org.controlsfx.control.PopOver;
+import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.IkonProvider;
+import org.kordamp.ikonli.browser.IkonPickerDialog;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.javafx.IkonResolver;
 
 public class FXIconController implements Initializable {
 
@@ -77,6 +88,9 @@ public class FXIconController implements Initializable {
     private PopOver ikonliOver;
     private SimpleStringProperty ikonLiteral;
     private SimpleObjectProperty<Color> selectedColor;
+    private ObservableList<FXIconController.IkonData> ikons;
+    private ObservableList<String> ikonLiterals;
+    private List<String> iconPrefix;
 
     private ResourceBundle resources;
     @FXML
@@ -109,8 +123,7 @@ public class FXIconController implements Initializable {
     @FXML
     private FontIcon placeHolderIcon;
     @FXML
-    private Label instructionsLabel;
-    private TextField ikonliFontLiteralBox;
+    private Label instructionsLabel;    
     private ColorPicker colorPicker;
     private Button okButton;
     private Button cancleButton;
@@ -131,20 +144,51 @@ public class FXIconController implements Initializable {
         selectedColor = new SimpleObjectProperty<>();
         generateButton.setDisable(true);
         ikonliOver = new PopOver();
+        ikonLiterals = FXCollections.observableArrayList();
+        iconPrefix = new ArrayList<>();
+        iconPrefix.add("ikonli-");
+        iconPrefix.add("fa-");
+        iconPrefix.add("ti-");
         setupPopOver();
     }
 
     private void setupPopOver() {
         VBox content = new VBox();
         content.setPadding(new Insets(10, 10, 10, 10));
-        content.setSpacing(10);
-        HBox hb = new HBox();
-        hb.setAlignment(Pos.CENTER_LEFT);
-        hb.setSpacing(5);
-        hb.getChildren().add(new Label("iKonli Fontliteral:"));
-        ikonliFontLiteralBox = new TextField();
-        hb.getChildren().add(ikonliFontLiteralBox);
-        content.getChildren().add(hb);
+        content.setSpacing(10);        
+
+        ikons = FXCollections.observableArrayList();
+        if (null != IkonProvider.class.getModule().getLayer()) {
+            for (IkonProvider provider : ServiceLoader.load(IkonProvider.class.getModule().getLayer(), IkonProvider.class)) {
+                ikons.add(FXIconController.IkonData.of(provider));
+            }
+        } else {
+            for (IkonProvider provider : ServiceLoader.load(IkonProvider.class)) {
+                ikons.add(FXIconController.IkonData.of(provider));
+            }
+        }
+        ComboBox cbox = new ComboBox();
+        cbox.setItems(ikons);
+        content.getChildren().add(cbox);
+        ComboBox cboxIcons = new ComboBox();
+        cboxIcons.setItems(ikonLiterals);        
+        cbox.valueProperty().addListener((o) -> {
+            Field[] fields = ikons.get(cbox.getSelectionModel().getSelectedIndex()).ikonProvider.getIkon().getFields();
+            ikonLiterals.clear();
+            String prefix = iconPrefix.get(cbox.getSelectionModel().getSelectedIndex());
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                ikonLiterals.add(new String(prefix + field.getName().replace('_', '-')).toLowerCase());
+            }
+        });
+        cbox.getSelectionModel().selectFirst();
+        cboxIcons.valueProperty().addListener((o) -> {
+            String get = ikonLiterals.get(cboxIcons.getSelectionModel().getSelectedIndex());
+            ikonLiteral.setValue(get);
+            placeHolderIcon.setIconLiteral(get);
+        });
+        content.getChildren().add(cboxIcons);
+
         HBox hb2 = new HBox();
         hb2.setSpacing(5);
         hb2.setAlignment(Pos.CENTER_LEFT);
@@ -204,16 +248,7 @@ public class FXIconController implements Initializable {
             iconBackgroundBox.setBackground(Background.EMPTY);
             placeHolderIcon.setIconLiteral(ikonLiteral.get());
             createImageFromIcon();
-        });
-        ikonliFontLiteralBox.textProperty().bindBidirectional(ikonLiteral);
-        ikonliFontLiteralBox.setOnKeyTyped((t) -> {
-            if (ikonLiteral.get().length() > 4) {
-                try {
-                    placeHolderIcon.setIconLiteral(ikonLiteral.get());
-                } catch (IllegalArgumentException | UnsupportedOperationException e) {
-                }
-            }
-        });
+        });        
     }
 
     public void createICO(File outFile) {
@@ -506,6 +541,29 @@ public class FXIconController implements Initializable {
         generateButton.setDisable(false);
         placeHolderIcon.setVisible(false);
         instructionsLabel.setVisible(false);
+    }
+
+    private static class IkonData implements Comparable<IkonData> {
+
+        private String name;
+        private IkonProvider ikonProvider;
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+        @Override
+        public int compareTo(IkonData o) {
+            return name.compareTo(o.name);
+        }
+
+        static IkonData of(IkonProvider ikonProvider) {
+            IkonData ikonData = new IkonData();
+            ikonData.ikonProvider = ikonProvider;
+            ikonData.name = ikonProvider.getIkon().getSimpleName();
+            return ikonData;
+        }
     }
 
 }
