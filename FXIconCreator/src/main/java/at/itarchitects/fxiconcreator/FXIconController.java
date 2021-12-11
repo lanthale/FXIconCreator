@@ -24,19 +24,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
@@ -45,13 +51,17 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.imageio.ImageIO;
 import net.sf.image4j.codec.ico.ICOEncoder;
+import org.controlsfx.control.PopOver;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class FXIconController implements Initializable {
@@ -64,6 +74,9 @@ public class FXIconController implements Initializable {
     private ExecutorService executor;
     private File outFile;
     private String pngString512;
+    private PopOver ikonliOver;
+    private SimpleStringProperty ikonLiteral;
+    private SimpleObjectProperty<Color> selectedColor;
 
     private ResourceBundle resources;
     @FXML
@@ -97,6 +110,14 @@ public class FXIconController implements Initializable {
     private FontIcon placeHolderIcon;
     @FXML
     private Label instructionsLabel;
+    private TextField ikonliFontLiteralBox;
+    private ColorPicker colorPicker;
+    private Button okButton;
+    private Button cancleButton;
+    private CheckBox backgroundTransparent;
+    private ColorPicker colorPickerBackground;
+    @FXML
+    private HBox iconBackgroundBox;
 
     public FXIconController() {
         dirChooser = new DirectoryChooser();
@@ -106,7 +127,93 @@ public class FXIconController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         executor = Executors.newSingleThreadExecutor();
+        ikonLiteral = new SimpleStringProperty();
+        selectedColor = new SimpleObjectProperty<>();
         generateButton.setDisable(true);
+        ikonliOver = new PopOver();
+        setupPopOver();
+    }
+
+    private void setupPopOver() {
+        VBox content = new VBox();
+        content.setPadding(new Insets(10, 10, 10, 10));
+        content.setSpacing(10);
+        HBox hb = new HBox();
+        hb.setAlignment(Pos.CENTER_LEFT);
+        hb.setSpacing(5);
+        hb.getChildren().add(new Label("iKonli Fontliteral:"));
+        ikonliFontLiteralBox = new TextField();
+        hb.getChildren().add(ikonliFontLiteralBox);
+        content.getChildren().add(hb);
+        HBox hb2 = new HBox();
+        hb2.setSpacing(5);
+        hb2.setAlignment(Pos.CENTER_LEFT);
+        hb2.getChildren().add(new Label("Foreground color:"));
+        colorPicker = new ColorPicker();
+        colorPicker.valueProperty().bindBidirectional(selectedColor);
+        selectedColor.addListener((o) -> {
+            placeHolderIcon.setIconColor(selectedColor.get());
+        });
+        hb2.getChildren().add(colorPicker);
+        content.getChildren().add(hb2);
+
+        HBox hb3 = new HBox();
+        hb3.setSpacing(5);
+        hb3.setAlignment(Pos.CENTER_LEFT);
+        hb3.getChildren().add(new Label("Background:"));
+        backgroundTransparent = new CheckBox("Transparent");
+        backgroundTransparent.setSelected(true);
+        hb3.getChildren().add(backgroundTransparent);
+        content.getChildren().add(hb3);
+
+        HBox hb4 = new HBox();
+        hb4.setSpacing(5);
+        hb4.setAlignment(Pos.CENTER_LEFT);
+        hb4.getChildren().add(new Label("Background color:"));
+        colorPickerBackground = new ColorPicker();
+        colorPickerBackground.setDisable(true);
+        colorPickerBackground.valueProperty().addListener((o) -> {
+            iconBackgroundBox.setBackground(Background.fill(colorPickerBackground.getValue()));
+        });
+        backgroundTransparent.selectedProperty().addListener((ov, t, t1) -> {
+            if (t == false && t1 == true) {
+                colorPickerBackground.setDisable(true);
+            }
+            if (t == true && t1 == false) {
+                colorPickerBackground.setDisable(false);
+                iconBackgroundBox.setBackground(Background.fill(colorPickerBackground.getValue()));
+            }
+        });
+        hb4.getChildren().add(colorPickerBackground);
+        content.getChildren().add(hb4);
+
+        HBox hbButtons = new HBox();
+        hbButtons.setSpacing(5);
+        hbButtons.setAlignment(Pos.CENTER);
+        okButton = new Button("OK");
+        cancleButton = new Button("Cancle");
+        hbButtons.getChildren().add(okButton);
+        hbButtons.getChildren().add(cancleButton);
+        content.getChildren().add(hbButtons);
+        ikonliOver.setContentNode(content);
+        cancleButton.setOnAction((t) -> {
+            ikonliOver.hide();
+        });
+        okButton.setOnAction((t) -> {
+            ikonliOver.hide();
+            iconBackgroundBox.setBackground(Background.EMPTY);
+            placeHolderIcon.setIconLiteral(ikonLiteral.get());
+            createImageFromIcon();
+        });
+        ikonliFontLiteralBox.textProperty().bindBidirectional(ikonLiteral);
+        ikonliFontLiteralBox.setOnKeyTyped((t) -> {
+            if (ikonLiteral.get().length() > 4) {
+                try {
+                    placeHolderIcon.setIconLiteral(ikonLiteral.get());
+                } catch (IllegalArgumentException | UnsupportedOperationException e) {
+                }
+            }
+        });
     }
 
     public void createICO(File outFile) {
@@ -136,7 +243,7 @@ public class FXIconController implements Initializable {
 
     public void createICNS(File outFile) {
         try {
-            try (IcnsBuilder builder = IcnsBuilder.getInstance()) {
+            try ( IcnsBuilder builder = IcnsBuilder.getInstance()) {
                 Image img512 = new Image(new FileInputStream(pngString512));
 
                 builder.add(IcnsType.ICNS_16x16_JPEG_PNG_IMAGE, getImageAsStream(img512, 16, 16));
@@ -146,7 +253,7 @@ public class FXIconController implements Initializable {
                 builder.add(IcnsType.ICNS_256x256_JPEG_PNG_IMAGE, getImageAsStream(img512, 256, 256));
                 builder.add(IcnsType.ICNS_512x512_JPEG_PNG_IMAGE, new FileInputStream(pngString512));
 
-                try (IcnsIcons builtIcons = builder.build()) {
+                try ( IcnsIcons builtIcons = builder.build()) {
                     FileOutputStream os = new FileOutputStream(outFile);
                     builtIcons.writeTo(os);
                 }
@@ -259,7 +366,7 @@ public class FXIconController implements Initializable {
     @FXML
     private void generateAction(ActionEvent event) {
         dirChooser.setTitle("Select output directory");
-        final File result = dirChooser.showDialog(generateButton.getParent().getScene().getWindow());        
+        final File result = dirChooser.showDialog(generateButton.getParent().getScene().getWindow());
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -375,14 +482,25 @@ public class FXIconController implements Initializable {
 
     @FXML
     private void selectIconFontButtonAction(ActionEvent event) {
-        
-        //create popover for custom selection of icon font
-        
-        placeHolderIcon.setIconLiteral("ti-trash");
-        placeHolderIcon.setIconSize(512);
+        if (imageView.getImage() != null) {
+            imageView.setImage(null);
+            placeHolderIcon.setVisible(true);
+            instructionsLabel.setVisible(true);
+            if (iconBackgroundBox.isDisable()) {
+                iconBackgroundBox.setBackground(Background.fill(colorPickerBackground.getValue()));
+            }
+        }
+        ikonliOver.show(selectIconFontButton);
+    }
+
+    private void createImageFromIcon() {
         WritableImage fontImage = new WritableImage(512, 512);
-        SnapshotParameters sp=new SnapshotParameters();
-        sp.setFill(Paint.valueOf("transparent"));
+        SnapshotParameters sp = new SnapshotParameters();
+        if (backgroundTransparent.isSelected()) {
+            sp.setFill(Paint.valueOf("transparent"));
+        } else {
+            sp.setFill(colorPickerBackground.getValue());
+        }
         placeHolderIcon.snapshot(sp, fontImage);
         imageView.setImage(fontImage);
         generateButton.setDisable(false);

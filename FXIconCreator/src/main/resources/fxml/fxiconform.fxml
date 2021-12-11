@@ -38,13 +38,17 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="pane" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.itarchitects.fxiconcreator.FXIconController">
+<AnchorPane fx:id="pane" prefHeight="700.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.itarchitects.fxiconcreator.FXIconController">
    <children>
       <StackPane AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox fx:id="vbox" alignment="CENTER" prefHeight="423.0" prefWidth="700.0">
                <children>
-                  <FontIcon fx:id="placeHolderIcon" iconColor="#b5b5b5" iconLiteral="ti-image" iconSize="400" />
+                  <HBox fx:id="iconBackgroundBox" alignment="CENTER" maxHeight="520.0" maxWidth="520.0" minHeight="520.0" minWidth="520.0" prefHeight="520.0" prefWidth="520.0">
+                     <children>
+                        <FontIcon fx:id="placeHolderIcon" iconColor="#b5b5b5" iconLiteral="ti-image" iconSize="512" />
+                     </children>
+                  </HBox>
                   <Label fx:id="instructionsLabel" text="Drop PNG file with 512 x 512 px here" textFill="#6f6e6e">
                      <font>
                         <Font size="24.0" />

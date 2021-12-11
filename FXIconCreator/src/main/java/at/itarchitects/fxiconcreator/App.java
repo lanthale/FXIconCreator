@@ -35,7 +35,7 @@ public class App extends Application {
     private static final double DEFAULT_X = 100;
     private static final double DEFAULT_Y = 200;
     private static final double DEFAULT_WIDTH = 700;
-    private static final double DEFAULT_HEIGHT = 500;
+    private static final double DEFAULT_HEIGHT = 700;
     private static final boolean DEFAULT_MAXIMIZED = false;
     private static final String NODE_NAME = "FXIconCreator";
     private FXMLLoader fxmlLoader;
