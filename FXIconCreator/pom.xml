@@ -162,8 +162,7 @@
                         <configuration>
                             <mainClass>${main-class}</mainClass>                     
                             <options>                                   
-                                <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>-XX:+UseZGC</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
@@ -176,8 +175,7 @@
                             <mainClass>${main-class}</mainClass>                     
                             <options>                                     
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>                                    
-                                <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>-XX:+UseZGC</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
@@ -189,8 +187,7 @@
                             <mainClass>${main-class}</mainClass>                     
                             <options>                                     
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>                                    
-                                <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>-XX:+UseZGC</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                             </options>
                         </configuration>
@@ -201,8 +198,7 @@
                         <configuration>
                             <mainClass>${main-class}</mainClass>                     
                             <options>
-                                <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>-XX:+UseZGC</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>
                                 <option>${profiler.jvmargs.arg1}</option>
                                 <option>${profiler.jvmargs.arg2}</option>
