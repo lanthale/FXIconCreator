@@ -18,16 +18,17 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.ResourceBundle;
 import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -49,7 +50,6 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
@@ -66,14 +66,12 @@ import javafx.scene.paint.Paint;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import net.sf.image4j.codec.ico.ICOEncoder;
 import org.controlsfx.control.PopOver;
-import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.IkonProvider;
-import org.kordamp.ikonli.browser.IkonPickerDialog;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.javafx.IkonResolver;
 
 public class FXIconController implements Initializable {
 
@@ -89,8 +87,8 @@ public class FXIconController implements Initializable {
     private SimpleStringProperty ikonLiteral;
     private SimpleObjectProperty<Color> selectedColor;
     private ObservableList<FXIconController.IkonData> ikons;
-    private ObservableList<String> ikonLiterals;
-    private List<String> iconPrefix;
+    private ObservableList<Label> ikonLiterals;
+    private HashMap<String, String> iconPrefix;
 
     private ResourceBundle resources;
     @FXML
@@ -123,7 +121,7 @@ public class FXIconController implements Initializable {
     @FXML
     private FontIcon placeHolderIcon;
     @FXML
-    private Label instructionsLabel;    
+    private Label instructionsLabel;
     private ColorPicker colorPicker;
     private Button okButton;
     private Button cancleButton;
@@ -144,54 +142,128 @@ public class FXIconController implements Initializable {
         selectedColor = new SimpleObjectProperty<>();
         generateButton.setDisable(true);
         ikonliOver = new PopOver();
+        ikonliOver.setAutoHide(false);        
+        ikonliOver.setCloseButtonEnabled(true);
+        ikonliOver.setDetachable(true);
+        ikonliOver.setHeaderAlwaysVisible(true);
+        ikonliOver.setTitle("iKonli property selection");
         ikonLiterals = FXCollections.observableArrayList();
-        iconPrefix = new ArrayList<>();
-        iconPrefix.add("ikonli-");
-        iconPrefix.add("fa-");
-        iconPrefix.add("ti-");
+        iconPrefix = new HashMap<>();
+        iconPrefix.put("org.kordamp.ikonli.fontawesome.FontAwesome", "fa-");
+        iconPrefix.put("org.kordamp.ikonli.themify.Themify", "ti-");
         setupPopOver();
     }
 
     private void setupPopOver() {
         VBox content = new VBox();
         content.setPadding(new Insets(10, 10, 10, 10));
-        content.setSpacing(10);        
+        content.setSpacing(10);
 
         ikons = FXCollections.observableArrayList();
-        if (null != IkonProvider.class.getModule().getLayer()) {
-            for (IkonProvider provider : ServiceLoader.load(IkonProvider.class.getModule().getLayer(), IkonProvider.class)) {
-                ikons.add(FXIconController.IkonData.of(provider));
-            }
-        } else {
-            for (IkonProvider provider : ServiceLoader.load(IkonProvider.class)) {
-                ikons.add(FXIconController.IkonData.of(provider));
-            }
-        }
-        ComboBox cbox = new ComboBox();
+        HBox fontSelBox = new HBox();
+        fontSelBox.setSpacing(5);
+        fontSelBox.setAlignment(Pos.CENTER_RIGHT);
+        fontSelBox.getChildren().add(new Label("Font Family"));
+        ComboBox<IkonData> cbox = new ComboBox<>();
+        cbox.setMinWidth(160);
+        cbox.setMaxWidth(160);
         cbox.setItems(ikons);
-        content.getChildren().add(cbox);
-        ComboBox cboxIcons = new ComboBox();
-        cboxIcons.setItems(ikonLiterals);        
+        Task<IkonData> iconProviderTask = new Task<>() {
+            @Override
+            protected IkonData call() throws Exception {
+                if (null != IkonProvider.class.getModule().getLayer()) {
+                    for (IkonProvider provider : ServiceLoader.load(IkonProvider.class.getModule().getLayer(), IkonProvider.class)) {
+                        if (!FXIconController.IkonData.of(provider).name.equalsIgnoreCase("ikonli")) {
+                            updateValue(FXIconController.IkonData.of(provider));
+                        }
+                    }
+                } else {
+                    for (IkonProvider provider : ServiceLoader.load(IkonProvider.class)) {
+                        //System.out.println("Name2: "+FXIconController.IkonData.of(provider).ikonProvider.getIkon().getName());
+                        if (!FXIconController.IkonData.of(provider).name.equalsIgnoreCase("ikonli")) {
+                            updateValue(FXIconController.IkonData.of(provider));
+                        }
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void updateValue(IkonData v) {
+                super.updateValue(v);
+                Platform.runLater(() -> {
+                    ikons.add(v);
+                });
+            }
+
+        };
+        iconProviderTask.setOnSucceeded((t) -> {
+            cbox.getSelectionModel().selectFirst();
+        });
+        executor.submit(iconProviderTask);
+        fontSelBox.getChildren().add(cbox);
+        content.getChildren().add(fontSelBox);
+        HBox iconSelBox = new HBox();
+        iconSelBox.setSpacing(5);
+        iconSelBox.setAlignment(Pos.CENTER_RIGHT);
+        iconSelBox.getChildren().add(new Label("Icon:"));
+        ComboBox<Label> cboxIcons = new ComboBox<>();
+        cboxIcons.setMinWidth(160);
+        cboxIcons.setMaxWidth(160);
+        cboxIcons.setItems(ikonLiterals);
         cbox.valueProperty().addListener((o) -> {
-            Field[] fields = ikons.get(cbox.getSelectionModel().getSelectedIndex()).ikonProvider.getIkon().getFields();
-            ikonLiterals.clear();
-            String prefix = iconPrefix.get(cbox.getSelectionModel().getSelectedIndex());
-            for (int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
-                ikonLiterals.add(new String(prefix + field.getName().replace('_', '-')).toLowerCase());
+            Task<Label> iconLabelTask = new Task<>() {
+                @Override
+                protected Label call() throws Exception {
+                    Field[] fields = ikons.get(cbox.getSelectionModel().getSelectedIndex()).ikonProvider.getIkon().getFields();
+                    ikonLiterals.clear();
+                    String prefix = iconPrefix.get(cbox.getValue().ikonProvider.getIkon().getName());
+                    for (int i = 0; i < fields.length; i++) {
+                        Field field = fields[i];
+                        if (!field.getName().equalsIgnoreCase("NONE")) {
+                            String iconStr = (prefix + field.getName().replace('_', '-')).toLowerCase();
+                            Label entry = new Label();
+                            entry.setText(iconStr);
+                            try {
+                                entry.setGraphic(new FontIcon(iconStr));
+                                ikonLiterals.add(entry);
+                            } catch (IllegalArgumentException | UnsupportedOperationException e) {
+                            }
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void updateValue(Label v) {
+                    super.updateValue(v);
+                    Platform.runLater(() -> {
+                        ikonLiterals.add(v);
+                    });
+                }
+
+            };
+            if (ikonLiterals.isEmpty()) {
+                PauseTransition pause = new PauseTransition(Duration.millis(3000));
+                pause.setOnFinished((t) -> {
+                    executor.submit(iconLabelTask);
+                });
+                pause.play();
+            } else {
+                executor.submit(iconLabelTask);
             }
         });
-        cbox.getSelectionModel().selectFirst();
         cboxIcons.valueProperty().addListener((o) -> {
-            String get = ikonLiterals.get(cboxIcons.getSelectionModel().getSelectedIndex());
-            ikonLiteral.setValue(get);
-            placeHolderIcon.setIconLiteral(get);
+            Label get = ikonLiterals.get(cboxIcons.getSelectionModel().getSelectedIndex());
+            ikonLiteral.setValue(get.getText());
+            placeHolderIcon.setIconLiteral(ikonLiteral.get());
         });
-        content.getChildren().add(cboxIcons);
+        iconSelBox.getChildren().add(cboxIcons);
+        content.getChildren().add(iconSelBox);
 
         HBox hb2 = new HBox();
         hb2.setSpacing(5);
-        hb2.setAlignment(Pos.CENTER_LEFT);
+        hb2.setAlignment(Pos.CENTER_RIGHT);
         hb2.getChildren().add(new Label("Foreground color:"));
         colorPicker = new ColorPicker();
         colorPicker.valueProperty().bindBidirectional(selectedColor);
@@ -203,7 +275,7 @@ public class FXIconController implements Initializable {
 
         HBox hb3 = new HBox();
         hb3.setSpacing(5);
-        hb3.setAlignment(Pos.CENTER_LEFT);
+        hb3.setAlignment(Pos.CENTER);
         hb3.getChildren().add(new Label("Background:"));
         backgroundTransparent = new CheckBox("Transparent");
         backgroundTransparent.setSelected(true);
@@ -212,7 +284,7 @@ public class FXIconController implements Initializable {
 
         HBox hb4 = new HBox();
         hb4.setSpacing(5);
-        hb4.setAlignment(Pos.CENTER_LEFT);
+        hb4.setAlignment(Pos.CENTER_RIGHT);
         hb4.getChildren().add(new Label("Background color:"));
         colorPickerBackground = new ColorPicker();
         colorPickerBackground.setDisable(true);
@@ -233,9 +305,13 @@ public class FXIconController implements Initializable {
 
         HBox hbButtons = new HBox();
         hbButtons.setSpacing(5);
+        HBox.setMargin(hbButtons, new Insets(10,10,10,10));
+        //hbButtons.setMinSize(200, 200);
         hbButtons.setAlignment(Pos.CENTER);
         okButton = new Button("OK");
+        okButton.setMinWidth(80);
         cancleButton = new Button("Cancle");
+        cancleButton.setMinWidth(80);
         hbButtons.getChildren().add(okButton);
         hbButtons.getChildren().add(cancleButton);
         content.getChildren().add(hbButtons);
@@ -248,7 +324,7 @@ public class FXIconController implements Initializable {
             iconBackgroundBox.setBackground(Background.EMPTY);
             placeHolderIcon.setIconLiteral(ikonLiteral.get());
             createImageFromIcon();
-        });        
+        });
     }
 
     public void createICO(File outFile) {

@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>FXIconCreator</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.2</version>
     
     <description>FXIconCreator is a simple editor like notepad but support for very large files</description>
 
