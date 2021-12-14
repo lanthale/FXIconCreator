@@ -71,6 +71,7 @@ import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import net.sf.image4j.codec.ico.ICOEncoder;
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.SearchableComboBox;
 import org.kordamp.ikonli.IkonProvider;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -164,7 +165,7 @@ public class FXIconController implements Initializable {
         fontSelBox.setSpacing(5);
         fontSelBox.setAlignment(Pos.CENTER_RIGHT);
         fontSelBox.getChildren().add(new Label("Font Family"));
-        ComboBox<IkonData> cbox = new ComboBox<>();
+        SearchableComboBox<IkonData> cbox = new SearchableComboBox<>();
         cbox.setMinWidth(160);
         cbox.setMaxWidth(160);
         cbox.setItems(ikons);
@@ -207,7 +208,7 @@ public class FXIconController implements Initializable {
         iconSelBox.setSpacing(5);
         iconSelBox.setAlignment(Pos.CENTER_RIGHT);
         iconSelBox.getChildren().add(new Label("Icon:"));
-        ComboBox<Label> cboxIcons = new ComboBox<>();
+        SearchableComboBox<Label> cboxIcons = new SearchableComboBox<>();
         cboxIcons.setMinWidth(160);
         cboxIcons.setMaxWidth(160);
         cboxIcons.setItems(ikonLiterals);
