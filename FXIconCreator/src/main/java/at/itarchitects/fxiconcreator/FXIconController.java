@@ -63,6 +63,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -142,15 +143,14 @@ public class FXIconController implements Initializable {
         selectedColor = new SimpleObjectProperty<>();
         generateButton.setDisable(true);
         ikonliOver = new PopOver();
-        ikonliOver.setAutoHide(false);        
+        ikonliOver.setAutoHide(false);
         ikonliOver.setCloseButtonEnabled(true);
         ikonliOver.setDetachable(true);
         ikonliOver.setHeaderAlwaysVisible(true);
         ikonliOver.setTitle("iKonli property selection");
         ikonLiterals = FXCollections.observableArrayList();
         iconPrefix = new HashMap<>();
-        iconPrefix.put("org.kordamp.ikonli.fontawesome.FontAwesome", "fa-");
-        iconPrefix.put("org.kordamp.ikonli.themify.Themify", "ti-");
+        setupPrefix();        
         setupPopOver();
     }
 
@@ -179,7 +179,7 @@ public class FXIconController implements Initializable {
                     }
                 } else {
                     for (IkonProvider provider : ServiceLoader.load(IkonProvider.class)) {
-                        //System.out.println("Name2: "+FXIconController.IkonData.of(provider).ikonProvider.getIkon().getName());
+                        //System.out.println("Name2: " + FXIconController.IkonData.of(provider).ikonProvider.getIkon().getName());
                         if (!FXIconController.IkonData.of(provider).name.equalsIgnoreCase("ikonli")) {
                             updateValue(FXIconController.IkonData.of(provider));
                         }
@@ -198,7 +198,7 @@ public class FXIconController implements Initializable {
 
         };
         iconProviderTask.setOnSucceeded((t) -> {
-            cbox.getSelectionModel().selectFirst();
+            cbox.getSelectionModel().select(21);
         });
         executor.submit(iconProviderTask);
         fontSelBox.getChildren().add(cbox);
@@ -223,6 +223,7 @@ public class FXIconController implements Initializable {
                         if (!field.getName().equalsIgnoreCase("NONE")) {
                             String iconStr = (prefix + field.getName().replace('_', '-')).toLowerCase();
                             Label entry = new Label();
+                            entry.setFont(new Font(20));
                             entry.setText(iconStr);
                             try {
                                 entry.setGraphic(new FontIcon(iconStr));
@@ -305,7 +306,7 @@ public class FXIconController implements Initializable {
 
         HBox hbButtons = new HBox();
         hbButtons.setSpacing(5);
-        HBox.setMargin(hbButtons, new Insets(10,10,10,10));
+        HBox.setMargin(hbButtons, new Insets(10, 10, 10, 10));
         //hbButtons.setMinSize(200, 200);
         hbButtons.setAlignment(Pos.CENTER);
         okButton = new Button("OK");
@@ -325,6 +326,86 @@ public class FXIconController implements Initializable {
             placeHolderIcon.setIconLiteral(ikonLiteral.get());
             createImageFromIcon();
         });
+    }
+
+    private void setupPrefix() {
+        iconPrefix.put("org.kordamp.ikonli.antdesignicons.AntDesignIconsFilled", "antf-");
+        iconPrefix.put("org.kordamp.ikonli.antdesignicons.AntDesignIconsOutlined", "anto-");
+        iconPrefix.put("org.kordamp.ikonli.bootstrapicons.BootstrapIcons", "bi-");        
+        iconPrefix.put("org.kordamp.ikonli.bpmn.Bpmn", "bpmn-");
+        iconPrefix.put("org.kordamp.ikonli.captainicon.Captainicon", "captainicon-");
+        iconPrefix.put("org.kordamp.ikonli.codicons.Codicons", "codicon-");
+        iconPrefix.put("org.kordamp.ikonli.dashicons.Dashicons", "dashicons-");
+        iconPrefix.put("org.kordamp.ikonli.devicons.Devicons", "di-");
+        iconPrefix.put("org.kordamp.ikonli.elusive.Elusive", "eli-");
+        iconPrefix.put("org.kordamp.ikonli.entypo.Entypo", "enty-");
+        iconPrefix.put("org.kordamp.ikonli.evaicons.Evaicons", "eva-");
+        iconPrefix.put("org.kordamp.ikonli.feather.Feather", "fth-");
+        iconPrefix.put("org.kordamp.ikonli.fileicons.FileIcons", "file-");
+        iconPrefix.put("org.kordamp.ikonli.fluentui.FluentUiFilledAL", "fltfal-");
+        iconPrefix.put("org.kordamp.ikonli.fluentui.FluentUiFilledMZ", "fltfmz-");
+        iconPrefix.put("org.kordamp.ikonli.fluentui.FluentUiRegularAL", "fltfal-");
+        iconPrefix.put("org.kordamp.ikonli.fluentui.FluentUiRegularMZ", "fltfmz-");
+        iconPrefix.put("org.kordamp.ikonli.fontawesome.FontAwesome", "fa-");
+        iconPrefix.put("org.kordamp.ikonli.fontawesome5.FontAwesomeBrands", "fab-");        
+        iconPrefix.put("org.kordamp.ikonli.fontelico.Fontelico", "ftl-");
+        iconPrefix.put("org.kordamp.ikonli.foundation.Foundation", "fi-");
+        iconPrefix.put("org.kordamp.ikonli.hawcons.HawconsFilled", "hwf-");
+        iconPrefix.put("org.kordamp.ikonli.hawcons.HawconsStroke", "hwf-");                        
+        iconPrefix.put("org.kordamp.ikonli.jam.Jam", "jam-");
+        iconPrefix.put("org.kordamp.ikonli.ligaturesymbols.LigatureSymbols", "lsf-");        
+        iconPrefix.put("org.kordamp.ikonli.linecons.Linecons", "li-");
+        iconPrefix.put("org.kordamp.ikonli.maki.Maki", "maki-");
+        iconPrefix.put("org.kordamp.ikonli.maki2.Maki2", "maki2-");        
+        iconPrefix.put("org.kordamp.ikonli.material.Material", "gmi-");        
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignA", "mdi2a-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignB", "mdi2b-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignC", "mdi2c-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignD", "mdi2d-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignE", "mdi2e-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignF", "mdi2f-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignG", "mdi2g-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignH", "mdi2h-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignI", "mdi2i-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignJ", "mdi2j-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignK", "mdi2k-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignL", "mdi2l-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignM", "mdi2m-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignN", "mdi2n-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignO", "mdi2o-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignP", "mdi2p-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignQ", "mdi2q-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignR", "mdi2r-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignS", "mdi2s-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignT", "mdi2t-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignU", "mdi2u-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignV", "mdi2v-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignW", "mdi2w-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignX", "mdi2x-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignY", "mdi2y-");
+        iconPrefix.put("org.kordamp.ikonli.materialdesign2.MaterialDesignZ", "mdi2z-");
+        iconPrefix.put("org.kordamp.ikonli.medicons.Medicons", "medicon-");        
+        iconPrefix.put("org.kordamp.ikonli.microns.Microns", "mu-");
+        iconPrefix.put("org.kordamp.ikonli.ociicons.Ociicons", "oci-");
+        iconPrefix.put("org.kordamp.ikonli.openiconic.Openiconic", "oi-");
+        iconPrefix.put("org.kordamp.ikonli.prestashopicons.PrestaShopIcons", "ps-");
+        iconPrefix.put("org.kordamp.ikonli.remixicon.RemixiconAL", "remixal-");
+        iconPrefix.put("org.kordamp.ikonli.remixicon.RemixiconMZ", "remixmz-");
+        iconPrefix.put("org.kordamp.ikonli.runestroicons.Runestroicons", "ri-");
+        iconPrefix.put("org.kordamp.ikonli.simpleicons.SimpleIcons", "si-");
+        iconPrefix.put("org.kordamp.ikonli.simplelineicons.SimpleLineIcons", "sil-");
+        iconPrefix.put("org.kordamp.ikonli.subway.Subway", "subway-");
+        iconPrefix.put("org.kordamp.ikonli.themify.Themify", "ti-");
+        iconPrefix.put("org.kordamp.ikonli.typicons.Typicons", "typ-");
+        iconPrefix.put("org.kordamp.ikonli.unicons.UniconsLine", "unil-");
+        iconPrefix.put("org.kordamp.ikonli.unicons.UniconsMonochrome", "unil-");
+        iconPrefix.put("org.kordamp.ikonli.unicons.UniconsSolid", "unil-");
+        iconPrefix.put("org.kordamp.ikonli.weathericons.WeatherIcons", "wi-");
+        iconPrefix.put("org.kordamp.ikonli.websymbols.Websymbols", "ws-");
+        iconPrefix.put("org.kordamp.ikonli.whhg.WhhgAL", "whhgal-");
+        iconPrefix.put("org.kordamp.ikonli.whhg.WhhgMZ", "whhgmz-");
+        iconPrefix.put("org.kordamp.ikonli.win10.Win10", "win10-");
+        iconPrefix.put("org.kordamp.ikonli.zondicons.Zondicons", "zondi-");
     }
 
     public void createICO(File outFile) {
