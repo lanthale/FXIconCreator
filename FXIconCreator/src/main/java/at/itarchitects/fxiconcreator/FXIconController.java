@@ -47,7 +47,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
@@ -140,6 +139,7 @@ public class FXIconController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         executor = Executors.newSingleThreadExecutor();
+        String OS = System.getProperty("os.name").toUpperCase();        
         ikonLiteral = new SimpleStringProperty();
         selectedColor = new SimpleObjectProperty<>();
         generateButton.setDisable(true);
