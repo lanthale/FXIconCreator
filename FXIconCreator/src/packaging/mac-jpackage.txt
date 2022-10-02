@@ -6,7 +6,6 @@
 --input ${project.build.directory}/dependency
 --app-version ${app.version}
 --runtime-image ${project.build.directory}/jvm-image
---temp ${project.build.directory}/installer-work
 --type dmg
 --resource-dir ${project.basedir}/res/osx
 --java-options -XX:+UseZGC
