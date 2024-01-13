@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>FXIconCreator</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     
     <description>FXIconCreator is a simple editor like notepad but support for very large files</description>
 
@@ -17,9 +17,9 @@
         <app.version>${version}</app.version>        
         <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>        
-        <javafx.version>19</javafx.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>        
+        <javafx.version>22-ea+11</javafx.version>
         <!-- unique UUID via https://www.uuidgenerator.net -->
         <windows.upgrade.uuid>3559e02e-f0f5-4bdf-ac71-a839a33f6b7e</windows.upgrade.uuid>
         <!-- This is used to set many user-visible fields in the Windows Installer. See win-jpackage.txt -->
