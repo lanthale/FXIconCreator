@@ -80,7 +80,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Build with Maven
-      run: for f in JeditFX/target/*.dmg; do mv "$f" "$(echo "$f" | sed s/FXIconCreator-/FXIconCreator_aarch64-/)"; done
+      run: for f in FXIconCreator/target/*.dmg; do mv "$f" "$(echo "$f" | sed s/FXIconCreator-/FXIconCreator_aarch64-/)"; done
       
     - name: Upload Release Asset OSX
       id: upload-release-asset 
