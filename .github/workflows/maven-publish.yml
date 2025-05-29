@@ -10,21 +10,21 @@ on:
 
 jobs:
   build-osx:
-
-    runs-on: macos-latest
+    
+    runs-on: macos-13
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 19
-      uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '19'
+        java-version: '24'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
     - name: Cache Maven packages
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -32,6 +32,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install -Ppackage -f FXIconCreator/pom.xml
+        
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.3.2
@@ -40,7 +41,7 @@ jobs:
 
     - name: Upload Release Asset OSX
       id: upload-release-asset 
-      uses: csexton/release-asset-action@v2
+      uses: csexton/release-asset-action@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -48,23 +49,65 @@ jobs:
         release-url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
+  build-osx-arm:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '24'
+        architecture: 'aarch64' # defaults to 'x64'
+        cache: 'maven'
+
+    - name: Cache Maven packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build with Maven
+      run: mvn clean install -Ppackage -f FXIconCreator/pom.xml
+        
+    - name: Get release
+      id: get_release
+      uses: bruceadams/get-release@v1.3.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Build with Maven
+      run: for f in JeditFX/target/*.dmg; do mv "$f" "$(echo "$f" | sed s/FXIconCreator-/FXIconCreator_aarch64-/)"; done
+      
+    - name: Upload Release Asset OSX
+      id: upload-release-asset 
+      uses: csexton/release-asset-action@v3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        pattern: FXIconCreator/target/*.dmg
+        release-url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build-win:
 
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 19
-      uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '19'
+        java-version: '24'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
     - name: Cache Maven packages
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -80,7 +123,7 @@ jobs:
     
     - name: Upload Release Asset Win
       id: upload-release-asset 
-      uses: csexton/release-asset-action@v2
+      uses: csexton/release-asset-action@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -94,18 +137,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/checkout@v2
-    - name: Set up JDK 19
-      uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - name: Set up JDK 24
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '19'
+        java-version: '24'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
     - name: Cache Maven packages
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -121,7 +163,7 @@ jobs:
 
     - name: Upload Release Asset Linux
       id: upload-release-asset 
-      uses: csexton/release-asset-action@v2
+      uses: csexton/release-asset-action@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
