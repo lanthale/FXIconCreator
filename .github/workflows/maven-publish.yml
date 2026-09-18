@@ -15,11 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 24
-      uses: actions/setup-java@v4
+    - name: Set up JDK 27
+      uses: actions/setup-java@v6
       with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '24'
+        distribution: 'zulu' # See 'Supported distributions' for available options
+        java-version: '27'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
@@ -55,11 +55,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 24
-      uses: actions/setup-java@v4
+    - name: Set up JDK 27
+      uses: actions/setup-java@v6
       with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '24'
+        distribution: 'zulu' # See 'Supported distributions' for available options
+        java-version: '27'
         architecture: 'aarch64' # defaults to 'x64'
         cache: 'maven'
 
@@ -98,11 +98,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 24
-      uses: actions/setup-java@v4
+    - name: Set up JDK 27
+      uses: actions/setup-java@v6
       with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '24'
+        distribution: 'zulu' # See 'Supported distributions' for available options
+        java-version: '27'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
@@ -138,11 +138,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 24
-      uses: actions/setup-java@v4
+    - name: Set up JDK 27
+      uses: actions/setup-java@v6
       with:
-        distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '24'
+        distribution: 'zulu' # See 'Supported distributions' for available options
+        java-version: '27'
         architecture: 'x64' # defaults to 'x64'
         cache: 'maven'
 
