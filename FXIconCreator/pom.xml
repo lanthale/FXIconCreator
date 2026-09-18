@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>FXIconCreator</artifactId>
-    <version>1.1.6-SNAPSHOT</version>
+    <version>1.1.7-SNAPSHOT</version>
     
     <description>FXIconCreator is a tool for creating app icons from fonts or images</description>
 
@@ -14,12 +14,12 @@
         <main-class>at.itarchitects.fxiconcreator.App</main-class>        
         <app.name>FXIconCreator</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
-        <app.version>1.1.6</app.version>        
+        <app.version>1.1.7</app.version>        
         <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>24</maven.compiler.source>
-        <maven.compiler.target>24</maven.compiler.target>        
-        <javafx.version>24.0.1</javafx.version>
+        <maven.compiler.source>27</maven.compiler.source>
+        <maven.compiler.target>27</maven.compiler.target>        
+        <javafx.version>27</javafx.version>
         <!-- unique UUID via https://www.uuidgenerator.net -->
         <windows.upgrade.uuid>3559e02e-f0f5-4bdf-ac71-a839a33f6b7e</windows.upgrade.uuid>
         <!-- This is used to set many user-visible fields in the Windows Installer. See win-jpackage.txt -->
@@ -32,237 +32,237 @@
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
-            <version>11.2.2</version>                       
+            <version>11.2.3</version>                       
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-core</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-javafx</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-themify-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontawesome-pack</artifactId>
-            <version>12.2.0</version>
+            <version>12.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-antdesignicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-bootstrapicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-bpmn-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-codicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-dashicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-devicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-elusive-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-entypo-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-evaicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-feather-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fileicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fluentui-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontawesome5-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontelico-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-foundation-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-hawcons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>                                        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-jamicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-ligaturesymbols-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-linecons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-maki-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-maki2-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-material-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-materialdesign-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-materialdesign2-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-medicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-microns-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-ociicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-openiconic-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>        
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-prestashopicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-remixicon-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-runestroicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-simpleicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-simplelineicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-subway-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-themify-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-typicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-unicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-weathericons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-websymbols-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-whhg-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-win10-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-zondicons-pack</artifactId>
-            <version>12.2.0</version>            
+            <version>12.4.0</version>            
         </dependency>                                        
         <dependency>
             <groupId>com.github.gino0631</groupId>
@@ -442,27 +442,27 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.4.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>                                      
+                    <version>3.14.0</version>                                      
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.1.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.2</version>
+                    <version>3.4.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -472,18 +472,18 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.1</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.9.1</version>
+                    <version>3.20.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M7</version>
+                    <version>3.5.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
